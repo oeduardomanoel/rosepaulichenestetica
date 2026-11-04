@@ -1,0 +1,8 @@
+Coloque aqui as fotos reais (retrato 4:5, minimo 1000 x 1300 px, .jpg ou .webp)
+e aponte o caminho em src/data/photos.ts.
+
+Sugestao de fotos:
+- rose-atendimento.jpg  (hero: a Rose atendendo, luz natural)
+- rose-retrato.jpg      (secao Sobre)
+- sala-707.jpg          (o espaco)
+- uma por tratamento    (criolipolise.jpg, hipro.jpg, drenagem-linfatica.jpg...)

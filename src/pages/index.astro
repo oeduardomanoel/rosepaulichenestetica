@@ -1,0 +1,234 @@
+---
+import Base from '../layouts/Base.astro';
+import ArchArt from '../components/ArchArt.astro';
+import WaButton from '../components/WaButton.astro';
+import Stars from '../components/Stars.astro';
+import Icon from '../components/Icon.astro';
+import Steps from '../components/Steps.astro';
+import Reviews from '../components/Reviews.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import { site } from '../data/site';
+import { treatments } from '../data/treatments';
+import { reviews } from '../data/reviews';
+import { photos } from '../data/photos';
+
+const title = 'Rose Paulichen Estética Avançada | Criolipólise e Hipro em Itajaí';
+const description =
+  'Estética avançada na Praia Brava, Itajaí: criolipólise, Hipro, drenagem Renata França, laser, limpeza de pele e microagulhamento. Nota 5,0 no Google. Agende sua avaliação.';
+
+// Manifesto quebrado em palavras para o efeito de leitura no scroll.
+const manifesto: { t: string; em?: boolean }[] = [
+  { t: 'Antes de qualquer aparelho, vem a conversa. A Rose olha sua pele de perto, entende sua rotina e monta um protocolo pra tratar a' },
+  { t: 'causa,', em: true },
+  { t: 'e não só o que aparece no espelho.' },
+];
+const words = manifesto.flatMap((seg) => seg.t.split(' ').map((w) => ({ w, em: seg.em })));
+
+const generalFaq = [
+  {
+    q: 'Onde fica a Rose Paulichen Estética Avançada?',
+    a: `Na ${site.address.street}, no ${site.address.building}, ${site.address.neighborhood}, ${site.address.city} (${site.address.state}), CEP ${site.address.postalCode}.`,
+  },
+  {
+    q: 'Qual o horário de atendimento?',
+    a: 'De segunda a sexta, das 9h às 19h. Sábado e domingo fechado. O agendamento é feito pelo WhatsApp.',
+  },
+  {
+    q: 'Como agendar uma avaliação?',
+    a: `Pelo WhatsApp ${site.phoneDisplay}. Conta o que você quer tratar e a Rose responde com os horários disponíveis.`,
+  },
+  {
+    q: 'Quais tratamentos a Rose faz?',
+    a: `Na parte corporal: criolipólise, Hipro, drenagem linfática pelo Método Renata França, Multishape e depilação a laser. No rosto: limpeza de pele, microagulhamento, Hipro e tratamento de acne com formulações manipuladas.`,
+  },
+  {
+    q: 'Preciso fazer avaliação antes de começar?',
+    a: 'Todo protocolo começa por uma avaliação. É nela que a Rose entende sua pele, seu corpo e sua rotina, e indica o tratamento e o número de sessões pro seu caso.',
+  },
+  {
+    q: 'Vocês atendem quem mora em Balneário Camboriú?',
+    a: 'Sim. A Praia Brava fica na divisa de Itajaí com Balneário Camboriú, e a sala fica no Riviera Concept, na Av. Osvaldo Reis.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: generalFaq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+
+<Base title={title} description={description} schema={[faqSchema]}>
+  <section class="hero hero--home" aria-labelledby="hero-t">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <span class="eyebrow" data-load style="--d:0.1s">Estética avançada · Praia Brava, Itajaí</span>
+        <h1 class="display" id="hero-t">
+          <span class="line"><span style="--d:0.15s">Estética avançada</span></span>
+          <span class="line"><span style="--d:0.27s">em Itajaí, com técnica</span></span>
+          <span class="line"><span style="--d:0.39s">e <em>mãos de fada.</em></span></span>
+        </h1>
+        <p class="lead" data-load style="--d:0.6s">
+          É assim que as clientes descrevem a Rose nas avaliações do Google. Criolipólise, Hipro, drenagem Renata França,
+          laser e tratamentos faciais, sempre a partir de uma avaliação da sua pele e do seu corpo.
+        </p>
+        <div class="hero__ctas" data-load style="--d:0.72s">
+          <WaButton origin="hero" />
+          <a class="btn btn--ghost" href="/tratamentos/"><span>Ver tratamentos</span><Icon name="arrow" /></a>
+        </div>
+        <div class="proof" data-load style="--d:0.85s">
+          <span class="proof__stars"><Stars /> {site.rating.value} no Google</span>
+          <span class="proof__sep" aria-hidden="true"></span>
+          <span>{site.rating.count} avaliações</span>
+          <span class="proof__sep" aria-hidden="true"></span>
+          <span>Riviera Concept, sala 707</span>
+        </div>
+      </div>
+
+      <div class="hero__visual" data-load style="--d:0.3s">
+        <div data-parallax="0.06">
+          <ArchArt hue={338} img={photos.hero} alt="Rose Paulichen em atendimento na sala da Praia Brava" eager />
+        </div>
+        <div class="tag-card">
+          <strong>Riviera Concept</strong>
+          Sala 707, Praia Brava, Itajaí
+        </div>
+        <div class="seal" aria-label={`Nota ${site.rating.value} no Google com ${site.rating.count} avaliações`} role="img">
+          <svg class="seal__ring" viewBox="0 0 120 120" data-spin aria-hidden="true">
+            <defs><path id="sealPath" d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0" /></defs>
+            <text><textPath href="#sealPath">Nota no Google ✦ {site.rating.count} avaliações ✦ </textPath></text>
+          </svg>
+          <span class="seal__core" aria-hidden="true"><strong>{site.rating.value}</strong><Stars /></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ribbon" aria-label="Tratamentos">
+    <div class="ribbon__track">
+      {[0, 1].map((k) => (
+        <div style="display:flex" aria-hidden={k === 1 ? 'true' : undefined}>
+          {treatments.map((t) => (
+            <a class="ribbon__item" href={`/tratamentos/${t.slug}/`} tabindex={k === 1 ? -1 : undefined}>{t.name}</a>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <section class="section manifesto" aria-labelledby="jeito-t">
+    <div class="wrap manifesto__grid">
+      <div class="manifesto__side">
+        <span class="eyebrow" id="jeito-t">O jeito Rose</span>
+        <p>Tem cliente atendida por ela há seis anos, e quem faz drenagem todo mês há mais de dois.</p>
+      </div>
+      <div style="display:grid;gap:36px">
+        <p class="manifesto__text" data-words>
+          {words.map(({ w, em }) => (em ? <em class="w">{w} </em> : <span class="w">{w} </span>))}
+        </p>
+        <p class="lead" data-reveal>
+          Ela atende cada cliente do começo ao fim e continua estudando pra trazer o que existe de mais atual em estética.
+          As clientes resumem assim: ambiente acolhedor, técnica e resultado.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tratamentos" aria-labelledby="tratamentos-t" style="padding-top:0">
+    <div class="wrap">
+      <div class="t-head">
+        <div style="display:grid;gap:18px;min-width:0">
+          <span class="eyebrow" data-reveal>Tratamentos</span>
+          <h2 class="display h2" id="tratamentos-t" data-reveal>Rosto e corpo, <em>no mesmo lugar</em></h2>
+          <p class="lead" data-reveal>Tecnologias para gordura localizada, firmeza e contorno, e cuidados faciais para acne, manchas e textura.</p>
+        </div>
+        <div class="t-filter" role="group" aria-label="Filtrar tratamentos" data-reveal>
+          <button class="chip" type="button" aria-pressed="true" data-filter="todos">Todos</button>
+          <button class="chip" type="button" aria-pressed="false" data-filter="Corporal">Corpo</button>
+          <button class="chip" type="button" aria-pressed="false" data-filter="Facial">Rosto</button>
+        </div>
+      </div>
+      <div class="t-list" data-tlist>
+        {treatments.map((t, i) => (
+          <a class="t-row" href={`/tratamentos/${t.slug}/`} data-area={t.area} data-hue={t.hue} data-name={t.name} data-reveal style={`--d:${(i % 4) * 0.05}s`}>
+            <span class="t-row__name">{t.name}</span>
+            <span class="t-row__area">{t.area}</span>
+            <span class="t-row__desc">{t.card}</span>
+            <span class="t-row__go" aria-hidden="true"><Icon name="arrow-up-right" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="t-preview" data-tpreview aria-hidden="true">
+      <div class="arch__art"></div>
+      <div class="arch__grain"></div>
+      <span class="t-preview__label"></span>
+    </div>
+  </section>
+
+  <Steps />
+
+  <Reviews items={reviews} />
+
+  <section class="section" id="sobre" aria-labelledby="sobre-t">
+    <div class="wrap about__grid">
+      <div class="about__visual" data-reveal="scale">
+        <ArchArt hue={350} mono="R" img={photos.about} alt="Rose Paulichen, profissional de estética avançada em Itajaí" />
+      </div>
+      <div class="about__copy">
+        <span class="eyebrow" data-reveal>Quem cuida de você</span>
+        <h2 class="display h2" id="sobre-t" data-reveal>Rose <em>Paulichen</em></h2>
+        <div class="prose" data-reveal>
+          <p>Quem chega na sala 707 é atendida pela própria Rose. Ela faz a avaliação, conduz as sessões e acompanha a evolução de perto.</p>
+          <p>Nas avaliações, as clientes falam da técnica e do jeito dela: atenta, dedicada, estudiosa. A Rose vive atrás de conhecimento novo e trabalha com equipamentos modernos, do laser ao Hipro.</p>
+        </div>
+        <ul class="facts" data-reveal>
+          <li><strong>{site.rating.value} no Google</strong><span>com {site.rating.count} avaliações de clientes</span></li>
+          <li><strong>6 anos</strong><span>é o tempo de casa de uma das clientes</span></li>
+          <li><strong>Rosto e corpo</strong><span>tratamentos faciais e corporais no mesmo espaço</span></li>
+          <li><strong>Liderada por mulher</strong><span>e um ambiente LGBTQ+ friendly</span></li>
+        </ul>
+        <span class="sign" data-reveal>Rose Paulichen</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="onde-estamos" aria-labelledby="local-t" style="padding-top:0">
+    <div class="wrap place__grid">
+      <div class="place__info">
+        <span class="eyebrow" data-reveal>Onde estamos</span>
+        <h2 class="display h2" id="local-t" data-reveal>Na Praia Brava, <em>no Riviera Concept</em></h2>
+        <address class="addr" data-reveal>
+          <strong>Sala 707</strong>
+          {site.address.street}<br />
+          {site.address.building}, {site.address.neighborhood}<br />
+          {site.address.city}, {site.address.state}, CEP {site.address.postalCode}
+        </address>
+        <table class="hours" data-reveal>
+          <caption class="sr-only">Horário de atendimento</caption>
+          <tbody>
+            {site.hours.map((h) => <tr><td>{h.days}</td><td>{h.time}</td></tr>)}
+          </tbody>
+        </table>
+        <div class="hero__ctas" data-reveal>
+          <a class="btn" href={site.links.directions} target="_blank" rel="noopener"><Icon name="pin" /><span>Como chegar</span></a>
+          <WaButton origin="local" label="Chamar no WhatsApp" variant="btn--ghost" />
+        </div>
+      </div>
+      <div class="map" data-reveal="scale">
+        <iframe
+          src={site.links.mapEmbed}
+          title="Mapa: Rose Paulichen Estética Avançada no Riviera Concept, Praia Brava, Itajaí"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+        <span class="map__pin">Passe o mouse para ver o mapa em cores</span>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={generalFaq} />
+
+  <Cta />
+</Base>

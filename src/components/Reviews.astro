@@ -1,0 +1,41 @@
+---
+import Stars from './Stars.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import type { Review } from '../data/reviews';
+interface Props { items: Review[]; title?: string; compact?: boolean }
+const { items, title = 'Quem já passou pelas mãos da Rose', compact = false } = Astro.props;
+---
+<section class="section reviews" id="avaliacoes" aria-labelledby="avaliacoes-t">
+  <div class="wrap">
+    <div class="reviews__top">
+      <div style="display:grid;gap:18px;min-width:0">
+        <span class="eyebrow" data-reveal>Avaliações no Google</span>
+        <h2 class="display h2" id="avaliacoes-t" data-reveal>{title}</h2>
+      </div>
+      <div class="score" data-reveal>
+        <span class="score__n">{site.rating.value}</span>
+        <span class="score__meta">
+          <Stars />
+          <span><strong style="color:var(--ink)">{site.rating.count} avaliações</strong> no Google</span>
+          <a class="link" href={site.links.maps} target="_blank" rel="noopener">Ler todas <Icon name="arrow" /></a>
+        </span>
+      </div>
+    </div>
+    <div class="r-track" data-rtrack tabindex="0" aria-label="Avaliações de clientes, role para o lado">
+      {items.map((r, i) => (
+        <figure class="r-card" data-reveal style={`--d:${Math.min(i, 3) * 0.08}s;margin:0`}>
+          <span class="r-card__q" aria-hidden="true">“</span>
+          <blockquote>{r.text}</blockquote>
+          <footer><strong>{r.name}</strong><span><Stars /></span></footer>
+        </figure>
+      ))}
+    </div>
+    {!compact && items.length > 3 && (
+      <div class="r-nav" style="margin-top:8px">
+        <button type="button" data-rprev aria-label="Avaliação anterior"><Icon name="left" /></button>
+        <button type="button" data-rnext aria-label="Próxima avaliação"><Icon name="right" /></button>
+      </div>
+    )}
+  </div>
+</section>

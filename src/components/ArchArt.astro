@@ -1,0 +1,18 @@
+---
+// Arco com arte em CSS. Se `img` vier preenchido (ex.: "/img/rose.jpg"), mostra a foto no lugar.
+interface Props { hue?: number; mono?: string; img?: string; alt?: string; class?: string; eager?: boolean }
+const { hue = 340, mono = 'R', img, alt = '', class: cls = '', eager = false } = Astro.props;
+---
+<div class={`arch ${cls}`}>
+  {img ? (
+    <img src={img} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : 'auto'} width="800" height="1040" />
+  ) : (
+    <>
+      <div class="arch__art" style={`--h:${hue}`} aria-hidden="true"></div>
+      <div class="arch__grain" aria-hidden="true"></div>
+      <div class="arch__mono" aria-hidden="true">{mono}</div>
+    </>
+  )}
+  <div class="arch__ring" aria-hidden="true"></div>
+  <slot />
+</div>

@@ -1,0 +1,24 @@
+---
+import WaButton from './WaButton.astro';
+import type { Faq as FaqItem } from '../data/treatments';
+interface Props { items: FaqItem[]; title?: string; waMessage?: string; id?: string }
+const { items, title = 'Perguntas frequentes', waMessage, id = 'perguntas' } = Astro.props;
+---
+<section class="section" id={id} aria-labelledby={`${id}-t`}>
+  <div class="wrap faq__grid">
+    <div>
+      <span class="eyebrow" data-reveal>Dúvidas</span>
+      <h2 class="display h2" id={`${id}-t`} data-reveal>{title}</h2>
+      <p class="lead" data-reveal>Não achou a sua pergunta? Manda no WhatsApp que a Rose responde.</p>
+      <div data-reveal><WaButton origin={`faq-${id}`} label="Perguntar para a Rose" variant="btn--ghost" message={waMessage} /></div>
+    </div>
+    <div class="faq" data-reveal>
+      {items.map((f, i) => (
+        <details open={i === 0}>
+          <summary><span>{f.q}</span><span class="plus" aria-hidden="true"></span></summary>
+          <p class="faq__a">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

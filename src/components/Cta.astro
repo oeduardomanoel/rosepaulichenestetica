@@ -1,0 +1,28 @@
+---
+import WaButton from './WaButton.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+interface Props { title?: string; accent?: string; text?: string; waMessage?: string; origin?: string }
+const {
+  title = 'O primeiro passo',
+  accent = 'é uma conversa.',
+  text = 'Conta pra Rose o que te incomoda hoje. Ela responde, tira suas dúvidas e marca a sua avaliação.',
+  waMessage,
+  origin = 'cta-final',
+} = Astro.props;
+---
+<section class="cta" aria-labelledby={`${origin}-t`}>
+  <div class="cta__glow" aria-hidden="true" data-parallax="-0.12"></div>
+  <div class="wrap">
+    <div class="cta__in">
+      <span class="eyebrow" data-reveal>Praia Brava, Itajaí</span>
+      <h2 class="display h2" id={`${origin}-t`} data-reveal>{title} <em>{accent}</em></h2>
+      <p data-reveal>{text}</p>
+      <div class="cta__ctas" data-reveal>
+        <WaButton origin={origin} variant="btn--light" message={waMessage} />
+        <a class="btn btn--line-light" href={site.links.directions} target="_blank" rel="noopener"><Icon name="pin" /><span>Como chegar</span></a>
+      </div>
+      <p data-reveal style="font-size:0.92rem">{site.hours[0].days}, {site.hours[0].time}. WhatsApp {site.phoneDisplay}.</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,155 @@
+---
+import '@fontsource-variable/bodoni-moda/opsz.css';
+import '@fontsource-variable/bodoni-moda/opsz-italic.css';
+import '@fontsource-variable/hanken-grotesk/wght.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+import { site, waLink } from '../data/site';
+import { treatments } from '../data/treatments';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
+  waMessage?: string;
+}
+
+const { title, description, schema = [], noindex = false, waMessage } = Astro.props;
+const siteUrl = (Astro.site?.href ?? 'https://www.rosepaulichen.com.br/').replace(/\/$/, '');
+const canonical = new URL(Astro.url.pathname, siteUrl + '/').href;
+const ogImage = `${siteUrl}/og.jpg`;
+const bizId = `${siteUrl}/#negocio`;
+
+const sameAs = [site.links.facebook, site.links.mapsCid, site.links.instagram].filter(Boolean);
+
+const business = {
+  '@context': 'https://schema.org',
+  '@type': ['BeautySalon', 'HealthAndBeautyBusiness'],
+  '@id': bizId,
+  name: site.name,
+  alternateName: ['Rose Paulichen Estética', 'Rose Paulichen Estética Avançada | Criolipólise e Hipro em Itajaí'],
+  description:
+    'Estética avançada facial e corporal na Praia Brava, em Itajaí (SC). Criolipólise, Hipro (ultrassom microfocado), drenagem linfática Método Renata França, Multishape, depilação a laser, limpeza de pele, microagulhamento e tratamento de acne, sempre a partir de uma avaliação individual.',
+  url: siteUrl + '/',
+  image: ogImage,
+  logo: `${siteUrl}/icon-512.png`,
+  telephone: site.phoneE164,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${site.address.street}, ${site.address.building}`,
+    addressLocality: site.address.city,
+    addressRegion: site.address.state,
+    postalCode: site.address.postalCode,
+    addressCountry: site.address.country,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  hasMap: site.links.mapsCid,
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', ...site.hoursSchema },
+  ],
+  areaServed: [
+    { '@type': 'Place', name: 'Praia Brava, Itajaí, SC' },
+    { '@type': 'City', name: 'Itajaí' },
+    { '@type': 'City', name: 'Balneário Camboriú' },
+  ],
+  founder: { '@type': 'Person', name: site.professional, jobTitle: 'Estética avançada' },
+  knowsAbout: treatments.map((t) => t.name),
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: site.phoneE164,
+    contactType: 'customer service',
+    availableLanguage: 'pt-BR',
+    url: waLink(),
+  },
+  sameAs,
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Tratamentos',
+    itemListElement: treatments.map((t) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: t.name, url: `${siteUrl}/tratamentos/${t.slug}/` },
+    })),
+  },
+};
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#site`,
+  url: siteUrl + '/',
+  name: site.name,
+  inLanguage: 'pt-BR',
+  publisher: { '@id': bizId },
+};
+
+const graph = [business, website, ...schema];
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
+    <meta name="theme-color" content="#4a1828" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="geo.region" content="BR-SC" />
+    <meta name="geo.placename" content="Itajaí" />
+    <meta name="geo.position" content={`${site.geo.lat};${site.geo.lng}`} />
+    <meta name="ICBM" content={`${site.geo.lat}, ${site.geo.lng}`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Rose Paulichen Estética Avançada, Praia Brava, Itajaí" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="Resumo para IAs (llms.txt)" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    {graph.map((g) => <script type="application/ld+json" set:html={JSON.stringify(g)} />)}
+  </head>
+  <body>
+    <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+    <Header waMessage={waMessage} />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Footer />
+
+    <a class="wa-float" href={waLink(waMessage)} target="_blank" rel="noopener" data-wa="flutuante" aria-label="Conversar com a Rose no WhatsApp">
+      <Icon name="whatsapp" />
+      <span class="wa-float__tip">Fale com a Rose</span>
+    </a>
+    <div class="mbar" data-mbar>
+      <a class="btn" href={waLink(waMessage)} target="_blank" rel="noopener" data-wa="barra-mobile">
+        <Icon name="whatsapp" />
+        <span>Agendar pelo WhatsApp</span>
+      </a>
+    </div>
+
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>

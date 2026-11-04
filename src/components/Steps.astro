@@ -1,0 +1,32 @@
+---
+// As quatro etapas vêm do jeito que a própria Rose descreve o atendimento no Perfil do Google.
+const steps = [
+  { t: 'Avaliação', d: 'Você conta o que incomoda. A Rose olha sua pele e seu corpo de perto e pergunta da sua rotina antes de indicar qualquer coisa.' },
+  { t: 'Protocolo seu', d: 'Técnicas e tecnologias escolhidas para as necessidades da sua pele e do seu corpo. O que funcionou pra outra cliente não vira regra pra você.' },
+  { t: 'Home care', d: 'Você sai sabendo o que usar em casa para potencializar o tratamento entre uma sessão e outra.' },
+  { t: 'Resultado progressivo', d: 'Sessão após sessão, com acompanhamento. O protocolo vai sendo ajustado conforme a sua pele e o seu corpo respondem.' },
+];
+interface Props { title?: string; intro?: string }
+const { title = 'Como funciona o seu tratamento', intro = 'O mesmo cuidado em qualquer tratamento, do rosto ao corpo.' } = Astro.props;
+---
+<section class="section" id="como-funciona" aria-labelledby="como-funciona-t">
+  <div class="wrap" style="display:grid;gap:clamp(40px,6vw,72px)">
+    <div style="display:grid;gap:18px;max-width:760px">
+      <span class="eyebrow" data-reveal>Passo a passo</span>
+      <h2 class="display h2" id="como-funciona-t" data-reveal>{title}</h2>
+      <p class="lead" data-reveal>{intro}</p>
+    </div>
+    <div class="steps" data-steps>
+      <div class="steps__line" aria-hidden="true"><i></i></div>
+      <ol class="steps__list">
+      {steps.map((s, i) => (
+        <li class="step" data-step data-reveal style={`--d:${i * 0.08}s`}>
+          <span class="step__n" aria-hidden="true">{i + 1}</span>
+          <h3>{s.t}</h3>
+          <p>{s.d}</p>
+        </li>
+      ))}
+      </ol>
+    </div>
+  </div>
+</section>

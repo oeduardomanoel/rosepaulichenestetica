@@ -1,0 +1,47 @@
+---
+import { site, waLink } from '../data/site';
+import { treatments } from '../data/treatments';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand" style="display:grid;gap:18px;align-content:start">
+        <a class="brand" href="/">
+          <span class="brand__mark" aria-hidden="true">R</span>
+          <span class="brand__text"><span class="brand__name">Rose Paulichen</span><span class="brand__sub" style="color:var(--on-wine-muted)">Estética Avançada</span></span>
+        </a>
+        <p style="max-width:34ch">Estética avançada facial e corporal na Praia Brava, em Itajaí. Cada protocolo começa por uma avaliação.</p>
+      </div>
+      <div>
+        <h2>Tratamentos</h2>
+        <ul>
+          {treatments.map((t) => <li><a href={`/tratamentos/${t.slug}/`}>{t.name}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Endereço</h2>
+        <address style="font-style:normal;display:grid;gap:4px">
+          <span>{site.address.street}</span>
+          <span>{site.address.building}</span>
+          <span>{site.address.neighborhood}, {site.address.city}, {site.address.state}</span>
+          <span>CEP {site.address.postalCode}</span>
+        </address>
+        <p style="margin-top:12px"><a href={site.links.directions} target="_blank" rel="noopener">Ver rota no Google Maps</a></p>
+      </div>
+      <div>
+        <h2>Contato e horário</h2>
+        <ul>
+          <li><a href={waLink()} target="_blank" rel="noopener" data-wa="footer">WhatsApp {site.phoneDisplay}</a></li>
+          <li><a href={site.links.facebook} target="_blank" rel="noopener">Facebook</a></li>
+          {site.links.instagram && <li><a href={site.links.instagram} target="_blank" rel="noopener">Instagram</a></li>}
+          {site.hours.map((h) => <li>{h.days}: {h.time}</li>)}
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© {year} {site.name}. Itajaí, SC.</span>
+      <span>Resultados variam de pessoa para pessoa. A indicação de cada tratamento depende de avaliação individual.</span>
+    </div>
+  </div>
+</footer>

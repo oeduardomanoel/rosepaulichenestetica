@@ -1,0 +1,25 @@
+---
+import WaButton from './WaButton.astro';
+interface Props { waMessage?: string }
+const { waMessage } = Astro.props;
+---
+<header class="header" data-header>
+  <div class="wrap header__in">
+    <a class="brand" href="/" aria-label="Rose Paulichen Estética Avançada, página inicial">
+      <span class="brand__mark" aria-hidden="true">R</span>
+      <span class="brand__text">
+        <span class="brand__name">Rose Paulichen</span>
+        <span class="brand__sub">Estética Avançada</span>
+      </span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Principal">
+      <a href="/tratamentos/">Tratamentos</a>
+      <a href="/#como-funciona">Como funciona</a>
+      <a href="/#avaliacoes">Avaliações</a>
+      <a href="/#sobre">Sobre a Rose</a>
+      <a href="/#onde-estamos">Onde estamos</a>
+    </nav>
+    <WaButton origin="header" label="Agendar" message={waMessage} class="btn--header" />
+    <button class="menu-toggle" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menu" data-menu><span></span></button>
+  </div>
+</header>

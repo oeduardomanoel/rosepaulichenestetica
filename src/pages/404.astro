@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import WaButton from '../components/WaButton.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Página não encontrada | Rose Paulichen Estética Avançada" description="Essa página não existe mais. Veja os tratamentos ou fale com a Rose pelo WhatsApp." noindex>
+  <section class="hero" style="min-height:70vh">
+    <div class="wrap" style="display:grid;gap:24px;justify-items:start">
+      <span class="eyebrow">Erro 404</span>
+      <h1 class="display" style="font-size:var(--step-5)"><span class="line"><span>Essa página</span></span><span class="line"><span><em>saiu de cena.</em></span></span></h1>
+      <p class="lead">O endereço pode ter mudado. Os tratamentos continuam todos aqui.</p>
+      <div class="hero__ctas">
+        <a class="btn" href="/tratamentos/"><span>Ver tratamentos</span><Icon name="arrow" /></a>
+        <WaButton origin="404" label="Falar com a Rose" variant="btn--ghost" />
+      </div>
+    </div>
+  </section>
+</Base>

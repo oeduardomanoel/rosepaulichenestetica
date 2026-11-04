@@ -1,0 +1,10 @@
+---
+import Icon from './Icon.astro';
+import { waLink } from '../data/site';
+interface Props { message?: string; label?: string; variant?: string; origin: string; class?: string }
+const { message, label = 'Agendar minha avaliação', variant = '', origin, class: cls = '' } = Astro.props;
+---
+<a class={`btn ${variant} ${cls}`} href={waLink(message)} target="_blank" rel="noopener" data-wa={origin}>
+  <Icon name="whatsapp" />
+  <span>{label}</span>
+</a>
