@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
-// Troque pelo domínio final antes de publicar. Canonical, sitemap, robots e llms.txt usam este valor.
-export const SITE_URL = 'https://www.rosepaulichen.com.br';
+// Endereço atual na Vercel. Troque pelo domínio próprio quando ele estiver configurado. Canonical, sitemap, robots e llms.txt usam este valor.
+export const SITE_URL = 'https://rosepaulichen-estetica.vercel.app';
 
 export default defineConfig({
   site: SITE_URL,

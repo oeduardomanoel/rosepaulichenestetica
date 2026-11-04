@@ -18,7 +18,7 @@ interface Props {
 }
 
 const { title, description, schema = [], noindex = false, waMessage } = Astro.props;
-const siteUrl = (Astro.site?.href ?? 'https://www.rosepaulichen.com.br/').replace(/\/$/, '');
+const siteUrl = (Astro.site?.href ?? 'https://rosepaulichen-estetica.vercel.app/').replace(/\/$/, '');
 const canonical = new URL(Astro.url.pathname, siteUrl + '/').href;
 const ogImage = `${siteUrl}/og.jpg`;
 const bizId = `${siteUrl}/#negocio`;
